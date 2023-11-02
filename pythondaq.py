@@ -2,6 +2,7 @@ import pyvisa
 import time
 from random import *
 import matplotlib.pyplot as plt
+import csv
 
 rm = pyvisa.ResourceManager("@py")
 ports = rm.list_resources()
@@ -12,7 +13,7 @@ device = rm.open_resource(
 
 # U0 has the full current
 # U1 measures the current passing through the LED and resistor, which is the full current
-# U2 measures the current passing through the resistor\
+# U2 measures the current passing through the resistor
 
 def volt_to_ADC(U):
     return int(round(U * 1023/3.3))
@@ -21,6 +22,9 @@ def ADC_to_volt(ADC):
     return round(ADC * 3.3/1023, 2)
 
 # voltage increases till the max intensity
+#=========================
+#TODO: I used the resistance of the resistor and not the LED
+#=========================
 def volt_increase():
     resistance = 220 #ohm
     l_voltage = []
@@ -36,7 +40,11 @@ def volt_increase():
         l_voltage.append(voltage)
         l_current.append(current)
 
-        # print(f"I = {current}, U = {voltage}")
+    with open("metingen.csv", 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['U', 'I'])
+        for voltage, current in zip(l_voltage, l_current):
+            writer.writerow([voltage, current])
     
     fig = plt.figure()
 
