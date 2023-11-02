@@ -1,6 +1,7 @@
 import pyvisa
 import time
 from random import *
+import matplotlib.pyplot as plt
 
 rm = pyvisa.ResourceManager("@py")
 ports = rm.list_resources()
@@ -21,14 +22,34 @@ def ADC_to_volt(ADC):
 
 # voltage increases till the max intensity
 def volt_increase():
-    # 1023 is de max output, 1024 geeft een spanning van 0
-    for adc_v in range(0, 1024): 
-        device.query(f"OUT:CH0 {adc_v}")
-        adc_r = int(device.query(f"MEAS:CH2?"))
-        print(f"On LED: {adc_v} ({ADC_to_volt(adc_v)} V)       Over resistor: {adc_r} ({ADC_to_volt(adc_r)} V)")
+    resistance = 220 #ohm
+    l_voltage = []
+    l_current = []
+
+    # 1023 is de max output, 1024 gives a voltage of 0
+    for adc_u in range(0, 1024): 
+        device.query(f"OUT:CH0 {adc_u}")
+        
+        voltage = ADC_to_volt(adc_u)
+        current = round(voltage/resistance , 4)
+
+        l_voltage.append(voltage)
+        l_current.append(current)
+
+        # print(f"I = {current}, U = {voltage}")
     
+    fig = plt.figure()
+
+    plt.xlim(0, 3.5)
+    plt.ylim(0, 0.016)
+    plt.xlabel("Voltage (V)")
+    plt.ylabel("Current (A)")
+    plt.plot(l_voltage, l_current, 'b-')
+
+    plt.show()
     return
 
 volt_increase()
+
 # to turn of LED after experiment
 device.query(f"OUT:CH0 {0}")
