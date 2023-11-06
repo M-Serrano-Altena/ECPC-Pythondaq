@@ -1,5 +1,9 @@
-import pyvisa
+# Marc Serrano Altena
+# 06-11-2023
+# sets the commands to interact with the arduino
 
+import pyvisa
+#
 def list_devices():
     rm = pyvisa.ResourceManager("@py")
 
