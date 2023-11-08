@@ -6,10 +6,12 @@ from diode_experiment import *
 import matplotlib.pyplot as plt
 import csv
 
+## output channel meaning:
 # U0 has the full current
-# U1 measures the current passing through the LED and resistor, which is the full current
+# U1 measures the current passing through the LED and resistor, which is the full current minus some loss to the wires
 # U2 measures the current passing through the resistor
 
+# shows the data from the diode experiment in a (I,U) diagram and exports the I and U values in a csv file
 def view_data(device):
     diode = DiodeExperiment(device)
     diode.average_value_scan(start=0, stop=1023)
