@@ -5,6 +5,7 @@
 from diode_experiment import *
 import matplotlib.pyplot as plt
 import csv
+import os 
 
 ## output channel meaning:
 # U0 has the full current
@@ -16,14 +17,20 @@ def view_data(device):
     diode = DiodeExperiment(device)
     diode.average_value_scan(start=0, stop=1023)
 
+    # # to make a new csv file for a different measurement
+    num = 1 
+    # while os.path.isfile(f"metingen-{num}.csv"):
+    #     num += 1
+    
     # write the I,U data to a csv
-    with open("metingen.csv", "w", newline="") as csvfile:
+    with open(f"metingen-{num}.csv", "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(["U", "I"])
         for voltage, current in zip(
             diode.average_voltage_list, diode.average_current_list
         ):
             writer.writerow([voltage, current])
+
 
     # plot (I, U) diagram of the LED
     plt.figure()
