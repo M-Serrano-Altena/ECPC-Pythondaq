@@ -17,11 +17,13 @@ def view_data(device):
     diode.average_value_scan(start=0, stop=1023)
 
     # write the I,U data to a csv
-    with open("metingen.csv", 'w', newline='') as csvfile:
+    with open("metingen.csv", "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(['U', 'I'])
-        for voltage, current in zip(diode.average_voltage_list, diode.average_current_list):
-            writer.writerow([voltage, current])    
+        writer.writerow(["U", "I"])
+        for voltage, current in zip(
+            diode.average_voltage_list, diode.average_current_list
+        ):
+            writer.writerow([voltage, current])
 
     # plot (I, U) diagram of the LED
     plt.figure()
@@ -30,7 +32,15 @@ def view_data(device):
     plt.ylim(0, 0.0025)
     plt.xlabel("Voltage (V)")
     plt.ylabel("Current (A)")
-    plt.errorbar(diode.average_voltage_list, diode.average_current_list, xerr=diode.error_voltage_list, yerr=diode.error_current_list, fmt='bo-', ecolor='k')
+    plt.errorbar(
+        diode.average_voltage_list,
+        diode.average_current_list,
+        xerr=diode.error_voltage_list,
+        yerr=diode.error_current_list,
+        fmt="bo-",
+        ecolor="k",
+        markersize=3,
+    )
 
     plt.show()
     return
