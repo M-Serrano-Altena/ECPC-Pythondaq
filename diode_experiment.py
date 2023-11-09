@@ -136,3 +136,4 @@ class DiodeExperiment:
                 self.current_measurements[9],
             )
         ]
+
