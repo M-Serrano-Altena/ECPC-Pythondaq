@@ -91,7 +91,7 @@ class DiodeExperiment:
         ]
 
         # calculate the standard deviation (error margin) of the 10 measurements for every output level
-        self.error_voltage_list = [
+        self.std_voltage_list = [
             np.std(
                 (volt1, volt2, volt3, volt4, volt5, volt6, volt7, volt8, volt9, volt10)
             )
@@ -108,7 +108,7 @@ class DiodeExperiment:
                 self.voltage_measurements[9],
             )
         ]
-        self.error_current_list = [
+        self.std_current_list = [
             np.std(
                 (
                     current1,
@@ -136,4 +136,8 @@ class DiodeExperiment:
                 self.current_measurements[9],
             )
         ]
+        
+        # error of the average is the standard deviation devided by the sqrt of the amount of measurements to get the average
+        self.error_voltage_list = [num/np.sqrt(len(self.voltage_measurements)) for num in self.std_voltage_list]
+        self.error_current_list = [num/np.sqrt(len(self.current_measurements)) for num in self.std_current_list]
 
