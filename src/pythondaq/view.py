@@ -5,7 +5,7 @@
 from pythondaq.diode_experiment import *
 import matplotlib.pyplot as plt
 import csv
-# import os 
+import os 
 
 ## output channel meaning:
 # U0 has the full current
@@ -23,7 +23,7 @@ def view_data(device):
     #     num += 1
     
     # write the I,U data to a csv
-    with open(f"metingen-{num}.csv", "w", newline="") as csvfile:
+    with open(f"csv-data/metingen-{num}.csv", "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(["U", "I", "U error", "I error"])
         for voltage, current, voltage_error, current_error  in zip(
