@@ -14,7 +14,9 @@ pyvisa-py = "^0.7.1"
 serial = "^0.0.97"
 pyserial = "^3.5"
 
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+view = "pythondaq.view:main"

@@ -12,9 +12,6 @@ import csv
 # U1 measures the current passing through the LED and resistor, which is the full current minus some loss to the wires
 # U2 measures the current passing through the resistor
 
-# makes a connection to the arduino device
-device = ArduinoVISADevice(port="ASRL5::INSTR")
-
 # shows the data from the diode experiment in a (I,U) diagram and exports the I and U values in a csv file
 def view_data(device):
     diode = DiodeExperiment(device)
@@ -55,4 +52,11 @@ def view_data(device):
     plt.show()
     return
 
-view_data(device)
+def main():
+    # makes a connection to the arduino device
+    device = ArduinoVISADevice(port="ASRL5::INSTR")
+    view_data(device)
+
+
+if __name__ == "__main__":
+    main()   
