@@ -1,11 +1,8 @@
 # Marc Serrano Altena
 # 06-11-2023
 # gets the controller data to use for the experiment
-from arduino_device import ArduinoVISADevice, list_devices
+from arduino_device import ArduinoVISADevice #, list_devices
 import numpy as np
-
-# makes a connection to the arduino device
-device = ArduinoVISADevice(port="ASRL5::INSTR")
 
 # tells the arduino how to run the experiment
 class DiodeExperiment:
@@ -37,107 +34,20 @@ class DiodeExperiment:
         self.device.set_output_value(0)
 
     # runs the scan multiple times to get the average values for every output level and the uncertainty of every output level
-    def average_value_scan(self, start, stop):
-        for _ in range(0, 10):
+    def average_value_scan(self, start, stop, measurement_amount):
+        for _ in range(0, measurement_amount):
             self.scan(start, stop)
             self.voltage_measurements.append(self.voltage_list)
             self.current_measurements.append(self.current_list)
 
-        # calculate the average value of 10 measurements for every output level
-        self.average_voltage_list = [
-            np.mean(
-                (volt1, volt2, volt3, volt4, volt5, volt6, volt7, volt8, volt9, volt10)
-            )
-            for volt1, volt2, volt3, volt4, volt5, volt6, volt7, volt8, volt9, volt10 in zip(
-                self.voltage_measurements[0],
-                self.voltage_measurements[1],
-                self.voltage_measurements[2],
-                self.voltage_measurements[3],
-                self.voltage_measurements[4],
-                self.voltage_measurements[5],
-                self.voltage_measurements[6],
-                self.voltage_measurements[7],
-                self.voltage_measurements[8],
-                self.voltage_measurements[9],
-            )
-        ]
-        self.average_current_list = [
-            np.mean(
-                (
-                    current1,
-                    current2,
-                    current3,
-                    current4,
-                    current5,
-                    current6,
-                    current7,
-                    current8,
-                    current9,
-                    current10,
-                )
-            )
-            for current1, current2, current3, current4, current5, current6, current7, current8, current9, current10 in zip(
-                self.current_measurements[0],
-                self.current_measurements[1],
-                self.current_measurements[2],
-                self.current_measurements[3],
-                self.current_measurements[4],
-                self.current_measurements[5],
-                self.current_measurements[6],
-                self.current_measurements[7],
-                self.current_measurements[8],
-                self.current_measurements[9],
-            )
-        ]
+        # calculate the average value of "measurement_amount" measurements for every output level
+        self.average_voltage_list =  np.mean(self.voltage_measurements, axis=0)
+        self.average_current_list = np.mean(self.current_measurements, axis=0)
 
         # calculate the standard deviation (error margin) of the 10 measurements for every output level
-        self.std_voltage_list = [
-            np.std(
-                (volt1, volt2, volt3, volt4, volt5, volt6, volt7, volt8, volt9, volt10)
-            )
-            for volt1, volt2, volt3, volt4, volt5, volt6, volt7, volt8, volt9, volt10 in zip(
-                self.voltage_measurements[0],
-                self.voltage_measurements[1],
-                self.voltage_measurements[2],
-                self.voltage_measurements[3],
-                self.voltage_measurements[4],
-                self.voltage_measurements[5],
-                self.voltage_measurements[6],
-                self.voltage_measurements[7],
-                self.voltage_measurements[8],
-                self.voltage_measurements[9],
-            )
-        ]
-        self.std_current_list = [
-            np.std(
-                (
-                    current1,
-                    current2,
-                    current3,
-                    current4,
-                    current5,
-                    current6,
-                    current7,
-                    current8,
-                    current9,
-                    current10,
-                )
-            )
-            for current1, current2, current3, current4, current5, current6, current7, current8, current9, current10 in zip(
-                self.current_measurements[0],
-                self.current_measurements[1],
-                self.current_measurements[2],
-                self.current_measurements[3],
-                self.current_measurements[4],
-                self.current_measurements[5],
-                self.current_measurements[6],
-                self.current_measurements[7],
-                self.current_measurements[8],
-                self.current_measurements[9],
-            )
-        ]
-        
+        self.std_voltage_list = np.std(self.voltage_measurements, axis=0)
+        self.std_current_list = np.std(self.current_measurements, axis=0)
+
         # error of the average is the standard deviation devided by the sqrt of the amount of measurements to get the average
         self.error_voltage_list = [num/np.sqrt(len(self.voltage_measurements)) for num in self.std_voltage_list]
         self.error_current_list = [num/np.sqrt(len(self.current_measurements)) for num in self.std_current_list]
-

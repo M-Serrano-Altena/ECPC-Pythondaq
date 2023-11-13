@@ -17,7 +17,7 @@ class ArduinoVISADevice:
         self.port = port
         self.rm = pyvisa.ResourceManager("@py")
         self.device = self.rm.open_resource(
-            "ASRL5::INSTR", read_termination="\r\n", write_termination="\n"
+            self.port, read_termination="\r\n", write_termination="\n"
         )
 
     # converts an adc value to a voltage
