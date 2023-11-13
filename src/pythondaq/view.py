@@ -2,7 +2,7 @@
 # 06-11-2023
 # views the data from the model experiment and makes a csv file and shows a I,U graph of the LED
 
-from diode_experiment import *
+from pythondaq.diode_experiment import *
 import matplotlib.pyplot as plt
 import csv
 # import os 
@@ -18,7 +18,6 @@ device = ArduinoVISADevice(port="ASRL5::INSTR")
 # shows the data from the diode experiment in a (I,U) diagram and exports the I and U values in a csv file
 def view_data(device):
     diode = DiodeExperiment(device)
-    diode.average_value_scan(start=0, stop=1023, measurement_amount=10)
     diode.average_value_scan(start=0, stop=1023, measurement_amount=10)
 
     # # to make a new csv file for a different measurement

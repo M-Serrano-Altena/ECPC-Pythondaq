@@ -1,7 +1,7 @@
 # Marc Serrano Altena
 # 06-11-2023
 # gets the controller data to use for the experiment
-from arduino_device import ArduinoVISADevice #, list_devices
+from pythondaq.arduino_device import ArduinoVISADevice #, list_devices
 import numpy as np
 
 # tells the arduino how to run the experiment
