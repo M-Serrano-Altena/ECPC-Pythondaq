@@ -1,8 +1,13 @@
 # Marc Serrano Altena
 # 06-11-2023
 # gets the controller data to use for the experiment
-from pythondaq.arduino_device import ArduinoVISADevice #, list_devices
+from pythondaq.arduino_device import ArduinoVISADevice
 import numpy as np
+
+def make_connection():
+    # makes a connection to the arduino device
+    device = ArduinoVISADevice(port="ASRL5::INSTR")
+    return device
 
 # tells the arduino how to run the experiment
 class DiodeExperiment:

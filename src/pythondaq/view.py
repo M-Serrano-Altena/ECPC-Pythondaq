@@ -53,8 +53,7 @@ def view_data(device):
     return
 
 def main():
-    # makes a connection to the arduino device
-    device = ArduinoVISADevice(port="ASRL5::INSTR")
+    device = make_connection()
     view_data(device)
 
 if __name__ == "__main__":
