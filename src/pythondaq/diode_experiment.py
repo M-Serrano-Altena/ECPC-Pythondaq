@@ -11,14 +11,17 @@ def make_connection():
 
 # tells the arduino how to run the experiment
 class DiodeExperiment:
-    # sets the initial values of the experiment
-    def __init__(self, device):
-        self.device = device
-        self.resistance = 220  # ohm
+    def clear(self):
         self.voltage_list = []
         self.current_list = []
         self.voltage_measurements = []
         self.current_measurements = []
+
+    # sets the initial values of the experiment
+    def __init__(self, device):
+        self.device = device
+        self.resistance = 220  # ohm
+        self.clear()
 
     # increases output of the arduino untill it has the maximum value and puts the voltage and current of the LED in lists
     def scan(self, start, stop):
@@ -56,3 +59,5 @@ class DiodeExperiment:
         # error of the average is the standard deviation devided by the sqrt of the amount of measurements to get the average
         self.error_voltage_list = [num/np.sqrt(len(self.voltage_measurements)) for num in self.std_voltage_list]
         self.error_current_list = [num/np.sqrt(len(self.current_measurements)) for num in self.std_current_list]
+
+        self.clear()
