@@ -12,8 +12,12 @@ import csv
 # U1 measures the current passing through the LED and resistor, which is the full current minus some loss to the wires
 # U2 measures the current passing through the resistor
 
-# shows the data from the diode experiment in a (I,U) diagram and exports the I and U values in a csv file
 def view_data(device):
+    """shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file
+
+    Args:
+        device (ArduinoVISADevice): class instance that gives commands to the arduino
+    """    
     diode = DiodeExperiment(device)
     diode.average_value_scan(start=0, stop=1023, measurement_amount=10)
 
@@ -53,6 +57,8 @@ def view_data(device):
     return
 
 def main():
+    """makes a connection with the arduino and runs the view_data function
+    """    
     device = make_connection()
     view_data(device)
 

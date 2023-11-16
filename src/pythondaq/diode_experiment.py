@@ -5,13 +5,20 @@ from pythondaq.arduino_device import ArduinoVISADevice
 import numpy as np
 
 def make_connection():
-    # makes a connection to the arduino device
+    """Makes a connection to the arduino device
+
+    Returns:
+        ArduinoVISADevice: class instance that gives commands to the arduino
+    """    
     device = ArduinoVISADevice(port="ASRL5::INSTR")
     return device
 
-# tells the arduino how to run the experiment
 class DiodeExperiment:
+    """Tells the arduino how to run the experiment
+    """    
     def clear(self):
+        """Clears all lists
+        """        
         self.voltage_list = []
         self.current_list = []
         self.voltage_measurements = []
@@ -19,12 +26,22 @@ class DiodeExperiment:
 
     # sets the initial values of the experiment
     def __init__(self, device):
+        """sets the initiall values of the experiment
+
+        Args:
+            device (ArduinoVISADevice): class instance that gives commands to the arduino
+        """        
         self.device = device
         self.resistance = 220  # ohm
         self.clear()
 
-    # increases output of the arduino untill it has the maximum value and puts the voltage and current of the LED in lists
     def scan(self, start, stop):
+        """increases output of the arduino from the start value to the end value and puts the voltage and current of the LED in lists
+
+        Args:
+            start (int): the start value of the output of the adruino in digital voltage
+            stop (int): the end value of output of the arduino in digital voltage
+        """        
         self.voltage_list = []
         self.current_list = []
 
@@ -41,8 +58,14 @@ class DiodeExperiment:
         # to turn of LED after experiment
         self.device.set_output_value(0)
 
-    # runs the scan multiple times to get the average values for every output level and the uncertainty of every output level
     def average_value_scan(self, start, stop, measurement_amount):
+        """runs the scan multiple times to get the average values for every output level and the uncertainty of the average values for every output level
+
+        Args:
+            start (int): the start value of the output of the adruino in digital voltage
+            stop (int): the end value of the output of the arduino in digital voltage
+            measurement_amount (int): amount of times the scan experiment is repeated
+        """        
         for _ in range(0, measurement_amount):
             self.scan(start, stop)
             self.voltage_measurements.append(self.voltage_list)
@@ -60,4 +83,5 @@ class DiodeExperiment:
         self.error_voltage_list = [num/np.sqrt(len(self.voltage_measurements)) for num in self.std_voltage_list]
         self.error_current_list = [num/np.sqrt(len(self.current_measurements)) for num in self.std_current_list]
 
+        # clears the measurements lists
         self.clear()
