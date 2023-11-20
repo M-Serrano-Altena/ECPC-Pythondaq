@@ -4,13 +4,13 @@
 from pythondaq.arduino_device import ArduinoVISADevice
 import numpy as np
 
-def make_connection():
+def make_connection(arduino_port):
     """Makes a connection to the arduino device
 
     Returns:
         ArduinoVISADevice: class instance that gives commands to the arduino
     """    
-    device = ArduinoVISADevice(port="ASRL5::INSTR")
+    device = ArduinoVISADevice(port=arduino_port)
     return device
 
 class DiodeExperiment:
@@ -26,7 +26,7 @@ class DiodeExperiment:
 
     # sets the initial values of the experiment
     def __init__(self, device):
-        """sets the initiall values of the experiment
+        """sets the initial values of the experiment
 
         Args:
             device (ArduinoVISADevice): class instance that gives commands to the arduino
@@ -34,6 +34,7 @@ class DiodeExperiment:
         self.device = device
         self.resistance = 220  # ohm
         self.clear()
+
 
     def scan(self, start, stop):
         """increases output of the arduino from the start value to the end value and puts the voltage and current of the LED in lists
@@ -83,5 +84,7 @@ class DiodeExperiment:
         self.error_voltage_list = [num/np.sqrt(len(self.voltage_measurements)) for num in self.std_voltage_list]
         self.error_current_list = [num/np.sqrt(len(self.current_measurements)) for num in self.std_current_list]
 
+        print(list(self.average_voltage_list))
+        print(list(self.average_current_list))
         # clears the measurements lists
         self.clear()
