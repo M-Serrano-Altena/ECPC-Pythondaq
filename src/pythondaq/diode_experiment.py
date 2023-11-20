@@ -1,7 +1,7 @@
 # Marc Serrano Altena
 # 06-11-2023
 # gets the controller data to use for the experiment
-from pythondaq.arduino_device import ArduinoVISADevice
+from pythondaq.arduino_device import ArduinoVISADevice, list_devices
 import numpy as np
 
 def make_connection(arduino_port):

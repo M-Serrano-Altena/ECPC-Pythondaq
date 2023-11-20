@@ -55,10 +55,12 @@ def cmd_group():
 
 @cmd_group.command()
 def list():
-    print("List")
+    print(list_devices())
     return
 
+
 @cmd_group.command()
+@click.argument("port")
 @click.option("-s" ,"--voltage_input_start", type=click.FloatRange(0, 3.3), help="start voltage inputted in the arduino", default=0)
 @click.option("-e" ,"--voltage_input_end", type=click.FloatRange(0, 3.3), help="end voltage inputted in the arduino", default=3.3)
 @click.option(
@@ -69,9 +71,8 @@ def list():
     show_default=True,    
 )
 @click.option("-r", "--repetitions", default=10, help="The amount of repetitions to run the experiment")
-def scan(filename, voltage_input_start, voltage_input_end, repetitions):
-    arduino_port =  "ASRL5::INSTR"   
-    device = make_connection(arduino_port=arduino_port)
+def scan(port, filename, voltage_input_start, voltage_input_end, repetitions):
+    device = make_connection(arduino_port=port)
     view_data(device, filename, voltage_input_start, voltage_input_end, repetitions)
     return
 
