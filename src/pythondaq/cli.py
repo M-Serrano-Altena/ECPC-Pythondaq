@@ -11,8 +11,9 @@ def view_data(device, filename, voltage_input_start, voltage_input_end, repetiti
     Args:
         device (ArduinoVISADevice): class instance that gives commands to the arduino
         filename (string): name of the file to export the data as a csv file
-        voltage_input_start (float): start voltage of the input in the arduino
-        voltage_input_end (float): end voltage of the input in the arduino
+        voltage_input_start (float): the analog start value of the input voltage
+        voltage_input_end (float): the analog end value of the input voltage
+        repetition (int): the amount of times the experiment should be repeated
     """    
     diode = DiodeExperiment(device)
     digital_value_start = device.analog_to_digital(voltage_input_start)
@@ -57,12 +58,19 @@ def cmd_group():
 
 @cmd_group.command()
 def list():
+    """prints the available ports
+    """    
     print(list_devices())
     return
 
 @cmd_group.command()
 @click.argument("port")
 def info(port):
+    """prints the identification string of the arduino
+
+    Args:
+        port (string): port of the arduino device
+    """    
     device = make_connection(port)
     print(device.get_identification())
     return
@@ -80,6 +88,15 @@ def info(port):
 )
 @click.option("-r", "--repetitions", default=10, help="The amount of repetitions to run the experiment")
 def scan(port, filename, voltage_input_start, voltage_input_end, repetitions):
+    """makes a connection with the arduino and runs the view data function
+
+    Args:
+        port (string): port of the arduino device
+        filename (string): name of the csv data file
+        voltage_input_start (float): the analog start value of the input voltage
+        voltage_input_end (float): the analog end value of the input voltage
+        repetitions (int): the amount of times the experiment should be repeated
+    """    
     device = make_connection(arduino_port=port)
     view_data(device, filename, voltage_input_start, voltage_input_end, repetitions)
     return
