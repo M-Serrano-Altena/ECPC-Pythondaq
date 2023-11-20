@@ -84,5 +84,10 @@ class DiodeExperiment:
         self.error_voltage_list = [num/np.sqrt(len(self.voltage_measurements)) for num in self.std_voltage_list]
         self.error_current_list = [num/np.sqrt(len(self.current_measurements)) for num in self.std_current_list]
 
+        print(self.average_current_list)
+        print(self.average_voltage_list)
+        print(self.error_current_list)
+        print(self.error_voltage_list)
+
         # clears the measurements lists
         self.clear()

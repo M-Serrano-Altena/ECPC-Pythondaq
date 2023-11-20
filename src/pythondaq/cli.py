@@ -52,6 +52,25 @@ def view_data(device, filename, voltage_input_start, voltage_input_end, repetiti
 
     return
 
+def port_search(search):
+    """searches for the port 
+
+    Args:
+        search (string): search term that tries to find the arduino port
+    
+    Returns:
+        string: the port found with the search from all available ports
+    """
+    port_list = list_devices()
+    if search != None:
+        
+        for port in port_list:
+            if search in port:
+                print(port)
+                return port
+    else:
+        print(port_list)
+
 
 @click.group()
 def cmd_group():
@@ -59,26 +78,31 @@ def cmd_group():
     pass
 
 @cmd_group.command()
-def list():
+@click.option("-s", "--search", default=None, help="makes a search in the available ports")
+def list(search):
     """prints the available ports
-    """    
-    print(list_devices())
-    return
+
+    Args:
+        search (string): search term for the available ports
+    """
+    port_search(search)
+    
 
 @cmd_group.command()
-@click.argument("port")
-def info(port):
+@click.argument("search")
+def info(search):
     """prints the identification string of the arduino
 
     Args:
         port (string): port of the arduino device
-    """    
+    """
+    port = port_search(search)     
     device = make_connection(port)
     print(device.get_identification())
     return
 
 @cmd_group.command()
-@click.argument("port")
+@click.argument("search")
 @click.option("-s" ,"--voltage_input_start", type=click.FloatRange(0, 3.3), help="start voltage inputted in the arduino", default=0)
 @click.option("-e" ,"--voltage_input_end", type=click.FloatRange(0, 3.3), help="end voltage inputted in the arduino", default=3.3)
 @click.option(
@@ -89,8 +113,8 @@ def info(port):
     show_default=True,    
 )
 @click.option("-r", "--repetitions", default=10, help="The amount of repetitions to run the experiment")
-@click.option("-g", "--graph", is_flag=True)
-def scan(port, filename, voltage_input_start, voltage_input_end, repetitions, graph):
+@click.option("-g", "--graph", is_flag=True, help="shows graph")
+def scan(search, filename, voltage_input_start, voltage_input_end, repetitions, graph):
     """makes a connection with the arduino and runs the view data function
 
     Args:
@@ -100,7 +124,8 @@ def scan(port, filename, voltage_input_start, voltage_input_end, repetitions, gr
         voltage_input_end (float): the analog end value of the input voltage
         repetitions (int): the amount of times the experiment should be repeated
         graph (bool): shows a graph if true, doesn't show graph if false
-    """    
+    """
+    port = port_search(search)    
     device = make_connection(arduino_port=port)
     view_data(device, filename, voltage_input_start, voltage_input_end, repetitions, graph)
     return
