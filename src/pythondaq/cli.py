@@ -5,7 +5,7 @@ import click
 
 # port = ASRL5::INSTR
 
-def view_data(device, filename, voltage_input_start, voltage_input_end, repetitions):
+def view_data(device, filename, voltage_input_start, voltage_input_end, repetitions, graph):
     """shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file
 
     Args:
@@ -14,6 +14,7 @@ def view_data(device, filename, voltage_input_start, voltage_input_end, repetiti
         voltage_input_start (float): the analog start value of the input voltage
         voltage_input_end (float): the analog end value of the input voltage
         repetition (int): the amount of times the experiment should be repeated
+        graph (bool): shows a graph if true, doesn't show graph if false
     """    
     diode = DiodeExperiment(device)
     digital_value_start = device.analog_to_digital(voltage_input_start)
@@ -28,26 +29,27 @@ def view_data(device, filename, voltage_input_start, voltage_input_end, repetiti
             diode.average_voltage_list, diode.average_current_list, diode.error_voltage_list, diode.error_current_list
         ):
             writer.writerow([voltage, current, voltage_error, current_error])
+    
+    # plot (I, U) diagram of the LED if graph is True
+    if graph:
+        plt.figure()
 
+        plt.xlim(0, 3.0)
+        plt.ylim(0, 0.0025)
+        plt.xlabel("Voltage (V)")
+        plt.ylabel("Current (A)")
+        plt.errorbar(
+            diode.average_voltage_list,
+            diode.average_current_list,
+            xerr=diode.error_voltage_list,
+            yerr=diode.error_current_list,
+            fmt="bo-",
+            ecolor="k",
+            markersize=3,
+        )
 
-    # plot (I, U) diagram of the LED
-    plt.figure()
+        plt.show()
 
-    plt.xlim(0, 3.0)
-    plt.ylim(0, 0.0025)
-    plt.xlabel("Voltage (V)")
-    plt.ylabel("Current (A)")
-    plt.errorbar(
-        diode.average_voltage_list,
-        diode.average_current_list,
-        xerr=diode.error_voltage_list,
-        yerr=diode.error_current_list,
-        fmt="bo-",
-        ecolor="k",
-        markersize=3,
-    )
-
-    plt.show()
     return
 
 
@@ -87,7 +89,8 @@ def info(port):
     show_default=True,    
 )
 @click.option("-r", "--repetitions", default=10, help="The amount of repetitions to run the experiment")
-def scan(port, filename, voltage_input_start, voltage_input_end, repetitions):
+@click.option("-g", "--graph", is_flag=True)
+def scan(port, filename, voltage_input_start, voltage_input_end, repetitions, graph):
     """makes a connection with the arduino and runs the view data function
 
     Args:
@@ -96,9 +99,10 @@ def scan(port, filename, voltage_input_start, voltage_input_end, repetitions):
         voltage_input_start (float): the analog start value of the input voltage
         voltage_input_end (float): the analog end value of the input voltage
         repetitions (int): the amount of times the experiment should be repeated
+        graph (bool): shows a graph if true, doesn't show graph if false
     """    
     device = make_connection(arduino_port=port)
-    view_data(device, filename, voltage_input_start, voltage_input_end, repetitions)
+    view_data(device, filename, voltage_input_start, voltage_input_end, repetitions, graph)
     return
 
 if __name__ == "__main__":
