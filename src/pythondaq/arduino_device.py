@@ -33,6 +33,12 @@ class ArduinoVISADevice:
     def digital_to_analog(digital_value: int) -> float:
         """Converts a digital value to a analog voltage
 
+        Examples:
+            >>> ArduinoVISADevice.digital_to_analog(1023)
+            3.3
+            >>> ArduinoVISADevice.digital_to_analog(800)
+            2.58
+
         Args:
             digital_value: discrete digital value for the voltage
 
@@ -44,6 +50,12 @@ class ArduinoVISADevice:
     @staticmethod
     def analog_to_digital(U: float) -> int:
         """Converts an analog voltage to a digital value
+
+        Examples:
+            >>> ArduinoVISADevice.analog_to_digital(3.3)
+            1023
+            >>> ArduinoVISADevice.analog_to_digital(2.01)
+            623
 
         Args:
             U: a continuous analog voltage
