@@ -5,16 +5,16 @@ import click
 
 # port = ASRL5::INSTR
 
-def view_data(device, filename, voltage_input_start, voltage_input_end, repetitions, graph):
+def view_data(device: ArduinoVISADevice, filename: str, voltage_input_start: float, voltage_input_end: float, repetitions: int, graph: bool):
     """shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file
 
     Args:
-        device (ArduinoVISADevice): class instance that gives commands to the arduino
-        filename (string): name of the file to export the data as a csv file
-        voltage_input_start (float): the analog start value of the input voltage
-        voltage_input_end (float): the analog end value of the input voltage
-        repetition (int): the amount of times the experiment should be repeated
-        graph (bool): shows a graph if true, doesn't show graph if false
+        device: class instance that gives commands to the arduino
+        filename: name of the file to export the data as a csv file
+        voltage_input_start: the analog start value of the input voltage
+        voltage_input_end: the analog end value of the input voltage
+        repetition: the amount of times the experiment should be repeated
+        graph: shows a graph if true, doesn't show graph if false
     """    
     diode = DiodeExperiment(device)
     digital_value_start = device.analog_to_digital(voltage_input_start)
@@ -52,14 +52,14 @@ def view_data(device, filename, voltage_input_start, voltage_input_end, repetiti
 
     return
 
-def port_search(search):
+def port_search(search: str) -> str:
     """searches for the port 
 
     Args:
-        search (string): search term that tries to find the arduino port
+        search: search term that tries to find the arduino port
     
     Returns:
-        string: the port found with the search from all available ports
+        the port found with the search from all available ports
     """
     port_list = list_devices()
     if search != None:
@@ -79,22 +79,22 @@ def cmd_group():
 
 @cmd_group.command()
 @click.option("-s", "--search", default=None, help="makes a search in the available ports")
-def list(search):
+def list(search: str):
     """prints the available ports
 
     Args:
-        search (string): search term for the available ports
+        search: search term for the available ports
     """
     port_search(search)
     
 
 @cmd_group.command()
 @click.argument("search")
-def info(search):
+def info(search: str):
     """prints the identification string of the arduino
 
     Args:
-        port (string): port of the arduino device
+        port: port of the arduino device
     """
     port = port_search(search)     
     device = make_connection(port)
@@ -114,16 +114,16 @@ def info(search):
 )
 @click.option("-r", "--repetitions", default=10, help="The amount of repetitions to run the experiment")
 @click.option("-g", "--graph", is_flag=True, help="shows graph")
-def scan(search, filename, voltage_input_start, voltage_input_end, repetitions, graph):
+def scan(search: str, filename: str, voltage_input_start: float, voltage_input_end: float, repetitions: int, graph: bool):
     """makes a connection with the arduino and runs the view data function
 
     Args:
-        port (string): port of the arduino device
-        filename (string): name of the csv data file
-        voltage_input_start (float): the analog start value of the input voltage
-        voltage_input_end (float): the analog end value of the input voltage
-        repetitions (int): the amount of times the experiment should be repeated
-        graph (bool): shows a graph if true, doesn't show graph if false
+        port: port of the arduino device
+        filename: name of the csv data file
+        voltage_input_start: the analog start value of the input voltage
+        voltage_input_end: the analog end value of the input voltage
+        repetitions: the amount of times the experiment should be repeated
+        graph: shows a graph if true, doesn't show graph if false
     """
     port = port_search(search)    
     device = make_connection(arduino_port=port)

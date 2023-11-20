@@ -3,7 +3,7 @@
 # sets the commands to interact with the arduino
 
 import pyvisa
-def list_devices():
+def list_devices() -> tuple:
     """returns the available ports
 
     Returns:
@@ -17,11 +17,11 @@ class ArduinoVISADevice:
     """gives commands to the arduino device
     """    
 
-    def __init__(self, port):
+    def __init__(self, port: str):
         """makes a connection with the arduino device
 
         Args:
-            port (string): port where the arduino device is connected to
+            port: port where the arduino device is connected to
         """        
         self.port = port
         self.rm = pyvisa.ResourceManager("@py")
@@ -30,30 +30,30 @@ class ArduinoVISADevice:
         )
 
     @staticmethod
-    def digital_to_analog(digital_value):
+    def digital_to_analog(digital_value: int) -> float:
         """Converts a digital value to a analog voltage
 
         Args:
-            digital_value (int): discrete digital value for the voltage
+            digital_value: discrete digital value for the voltage
 
         Returns:
-            float: a continuous analog voltage
+            a continuous analog voltage
         """        
         return round(int(digital_value) * 3.3/1023, 2)
 
     @staticmethod
-    def analog_to_digital(U):
+    def analog_to_digital(U: float) -> int:
         """Converts an analog voltage to a digital value
 
         Args:
-            U (float): a continuous analog voltage
+            U: a continuous analog voltage
 
         Returns:
-            int: a discrete digital value for the voltage
+            a discrete digital value for the voltage
         """        
         return int(round(U * 1023/3.3))
 
-    def get_identification(self):
+    def get_identification(self) -> str:
         """gets information about the hardware of the arduino
 
         Returns:
@@ -61,42 +61,42 @@ class ArduinoVISADevice:
         """        
         return self.device.query("*IDN?")
 
-    def set_output_value(self, digital_value):
+    def set_output_value(self, digital_value: int) -> str:
         """sets the output voltage of the arduino in digital values
 
         Args:
-            digital_value (int): a discrete digital value for the voltage, 0 or a multiple of 1024 is the minimum, a multiple of 1023 is the max value
+            digital_value: a discrete digital value for the voltage, 0 or a multiple of 1024 is the minimum, a multiple of 1023 is the max value
         """        
         # adc_value % 1024 to get values between 0 and 1023
         self.device.query(f"OUT:CH0 {digital_value % 1024}")
         return
 
-    def get_output_value(self):
+    def get_output_value(self) -> int:
         """returns the output value of channel 0
 
         Returns:
-            int: output value of channel 0 in digital_values
+            output value of channel 0 in digital_values
         """        
         return int(self.device.query("OUT:CH0?"))
 
-    def get_input_value(self, channel):
+    def get_input_value(self, channel: int) -> int:
         """returns the input value of a certain channel in digital values
 
         Args:
-            channel (int): the channel on the ardiuno to measure
+            channel: the channel on the ardiuno to measure
 
         Returns:
-            int: input value in digital values
+            input value in digital values
         """        
         return int(self.device.query(f"MEAS:CH{channel}?"))
     
-    def get_input_value_voltage(self, channel):
+    def get_input_value_voltage(self, channel: int) -> float:
         """returns the input value of a certain channel in analog voltage
 
         Args:
-            channel (int): the channel on the arduino to measure
+            channel: the channel on the arduino to measure
 
         Returns:
-            float: input value in analog voltage
+            input value in analog voltage
         """        
         return self.digital_to_analog(self.device.query(f"MEAS:CH{channel}?"))

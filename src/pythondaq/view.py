@@ -12,14 +12,15 @@ import csv
 # U1 measures the current passing through the LED and resistor, which is the full current minus some loss to the wires
 # U2 measures the current passing through the resistor
 
-def view_data(device, filename, voltage_input_start, voltage_input_end, repetitions):
+def view_data(device: ArduinoVISADevice, filename: str, voltage_input_start: float, voltage_input_end: float, repetitions: int):
     """shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file
 
     Args:
-        device (ArduinoVISADevice): class instance that gives commands to the arduino
-        filename (string): name of the file to export the data as a csv file
-        voltage_input_start (float): start voltage of the input in the arduino
-        voltage_input_end (float): end voltage of the input in the arduino
+        device: class instance that gives commands to the arduino
+        filename: name of the file to export the data as a csv file
+        voltage_input_start: start voltage of the input in the arduino
+        voltage_input_end: end voltage of the input in the arduino
+        repetition: the amount of times the experiment should be repeated
     """    
     diode = DiodeExperiment(device)
     digital_value_start = device.analog_to_digital(voltage_input_start)
@@ -56,8 +57,14 @@ def view_data(device, filename, voltage_input_start, voltage_input_end, repetiti
     plt.show()
     return
 
-def main(filename, voltage_input_start, voltage_input_end, repetitions):
-    """makes a connection with the arduino and runs the view_data function
+def main(filename: str, voltage_input_start: float, voltage_input_end: float, repetitions: int):
+    """makes a connection with the arduino and runs the view data function
+
+    Args:
+        filename: name of the csv data file
+        voltage_input_start: the analog start value of the input voltage
+        voltage_input_end: the analog end value of the input voltage
+        repetitions: the amount of times the experiment should be repeated
     """
     arduino_port =  "ASRL5::INSTR"   
     device = make_connection(arduino_port=arduino_port)

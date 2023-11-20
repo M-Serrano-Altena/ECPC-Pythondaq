@@ -1,0 +1,14 @@
+site_name: Pythondaq Docs
+
+theme:
+  name: "material"
+
+plugins:
+  - mkdocstrings
+
+nav:
+  - Pythondaq Docs: index.md
+  - arduino_device.md
+  - diode_experiment.md
+  - view.md
+  - Command Line Interface: cli.md

@@ -4,7 +4,7 @@
 from pythondaq.arduino_device import ArduinoVISADevice, list_devices
 import numpy as np
 
-def make_connection(arduino_port):
+def make_connection(arduino_port: str) -> ArduinoVISADevice:
     """Makes a connection to the arduino device
 
     Returns:
@@ -25,23 +25,23 @@ class DiodeExperiment:
         self.current_measurements = []
 
     # sets the initial values of the experiment
-    def __init__(self, device):
+    def __init__(self, device: ArduinoVISADevice):
         """sets the initial values of the experiment
 
         Args:
-            device (ArduinoVISADevice): class instance that gives commands to the arduino
+            device: class instance that gives commands to the arduino
         """        
         self.device = device
         self.resistance = 220  # ohm
         self.clear()
 
 
-    def scan(self, start, stop):
+    def scan(self, start: int, stop: int):
         """increases output of the arduino from the start value to the end value and puts the voltage and current of the LED in lists
 
         Args:
-            start (int): the start value of the output of the adruino in digital voltage
-            stop (int): the end value of output of the arduino in digital voltage
+            start: the start value of the output of the adruino in digital voltage
+            stop: the end value of output of the arduino in digital voltage
         """        
         self.voltage_list = []
         self.current_list = []
@@ -59,13 +59,13 @@ class DiodeExperiment:
         # to turn of LED after experiment
         self.device.set_output_value(0)
 
-    def average_value_scan(self, start, stop, measurement_amount):
+    def average_value_scan(self, start: int, stop: int, measurement_amount: int):
         """runs the scan multiple times to get the average values for every output level and the uncertainty of the average values for every output level
 
         Args:
-            start (int): the start value of the output of the adruino in digital voltage
-            stop (int): the end value of the output of the arduino in digital voltage
-            measurement_amount (int): amount of times the scan experiment is repeated
+            start: the start value of the output of the adruino in digital voltage
+            stop: the end value of the output of the arduino in digital voltage
+            measurement_amount: amount of times the scan experiment is repeated
         """        
         for _ in range(0, measurement_amount):
             self.scan(start, stop)
