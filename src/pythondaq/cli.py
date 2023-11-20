@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import csv
 import click
 
+# port = ASRL5::INSTR
+
 def view_data(device, filename, voltage_input_start, voltage_input_end, repetitions):
     """shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file
 
@@ -50,7 +52,7 @@ def view_data(device, filename, voltage_input_start, voltage_input_end, repetiti
 
 @click.group()
 def cmd_group():
-    """Input scan or list to run the respective function"""
+    """Input list, info or scan to run the respective function"""
     pass
 
 @cmd_group.command()
@@ -58,6 +60,12 @@ def list():
     print(list_devices())
     return
 
+@cmd_group.command()
+@click.argument("port")
+def info(port):
+    device = make_connection(port)
+    print(device.get_identification())
+    return
 
 @cmd_group.command()
 @click.argument("port")
