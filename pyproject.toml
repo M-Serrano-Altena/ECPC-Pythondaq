@@ -11,6 +11,7 @@ numpy = "^1.26.2"
 matplotlib = "^3.8.1"
 pyvisa-py = "^0.7.1"
 pyserial = "^3.5"
+click = "^8.1.7"
 
 [build-system]
 requires = ["poetry-core"]
@@ -18,3 +19,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 view = "pythondaq.view:main"
+diode = "pythondaq.cli:cmd_group"
