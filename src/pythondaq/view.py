@@ -5,7 +5,6 @@
 from pythondaq.diode_experiment import *
 import matplotlib.pyplot as plt
 import csv
-# import os 
 
 ## output channel meaning:
 # U0 has the full current
@@ -20,7 +19,7 @@ def view_data(device: ArduinoVISADevice, filename: str, voltage_input_start: flo
         filename: name of the file to export the data as a csv file
         voltage_input_start: start voltage of the input in the arduino
         voltage_input_end: end voltage of the input in the arduino
-        repetition: the amount of times the experiment should be repeated
+        repetitions: the amount of times the experiment should be repeated
     """    
     diode = DiodeExperiment(device)
     digital_value_start = device.analog_to_digital(voltage_input_start)
@@ -71,4 +70,7 @@ def main(filename: str, voltage_input_start: float, voltage_input_end: float, re
     view_data(device, filename, voltage_input_start, voltage_input_end, repetitions)
 
 if __name__ == "__main__":
-    main(filename="measurements", voltage_input_start=0, voltage_input_end=3.3, repetitions=10)   
+    main(filename="measurements", voltage_input_start=0, voltage_input_end=3.3, repetitions=10)
+
+def run():
+    main(filename="measurements", voltage_input_start=0, voltage_input_end=3.3, repetitions=10)

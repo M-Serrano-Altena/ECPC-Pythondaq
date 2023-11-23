@@ -13,7 +13,7 @@ def view_data(device: ArduinoVISADevice, filename: str, voltage_input_start: flo
         filename: name of the file to export the data as a csv file
         voltage_input_start: the analog start value of the input voltage
         voltage_input_end: the analog end value of the input voltage
-        repetition: the amount of times the experiment should be repeated
+        repetitions: the amount of times the experiment should be repeated
         graph: shows a graph if true, doesn't show graph if false
     """    
     diode = DiodeExperiment(device)
@@ -94,7 +94,7 @@ def info(search: str):
     """prints the identification string of the arduino
 
     Args:
-        port: port of the arduino device
+        search: search term to find the port of the arduino device
     """
     port = port_search(search)     
     device = make_connection(port)
@@ -118,7 +118,7 @@ def scan(search: str, filename: str, voltage_input_start: float, voltage_input_e
     """makes a connection with the arduino and runs the view data function
 
     Args:
-        port: port of the arduino device
+        search: search term to find the port of the arduino device
         filename: name of the csv data file
         voltage_input_start: the analog start value of the input voltage
         voltage_input_end: the analog end value of the input voltage
