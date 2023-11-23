@@ -20,7 +20,8 @@ def view_data(device: ArduinoVISADevice, filename: str, voltage_input_start: flo
     digital_value_start = device.analog_to_digital(voltage_input_start)
     digital_value_end = device.analog_to_digital(voltage_input_end)
     diode.average_value_scan(start=digital_value_start, stop=digital_value_end, measurement_amount=repetitions)
-    
+    print(diode.df_measurement)
+
     # write the I,U data to a csv
     with open(f"{filename}.csv", "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
