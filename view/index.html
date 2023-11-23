@@ -484,8 +484,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src\pythondaq\view.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">59</span>
-<span class="normal">60</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
 <span class="normal">61</span>
 <span class="normal">62</span>
 <span class="normal">63</span>
@@ -495,7 +494,8 @@
 <span class="normal">67</span>
 <span class="normal">68</span>
 <span class="normal">69</span>
-<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voltage_input_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">voltage_input_end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="normal">70</span>
+<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voltage_input_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">voltage_input_end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;makes a connection with the arduino and runs the view data function</span>
 
 <span class="sd">    Args:</span>
@@ -660,7 +660,8 @@
 <span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
-<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">view_data</span><span class="p">(</span><span class="n">device</span><span class="p">:</span> <span class="n">ArduinoVISADevice</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voltage_input_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">voltage_input_end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="normal">57</span>
+<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">view_data</span><span class="p">(</span><span class="n">device</span><span class="p">:</span> <span class="n">ArduinoVISADevice</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voltage_input_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">voltage_input_end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file</span>
 
 <span class="sd">    Args:</span>
@@ -674,6 +675,7 @@
     <span class="n">digital_value_start</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">analog_to_digital</span><span class="p">(</span><span class="n">voltage_input_start</span><span class="p">)</span>
     <span class="n">digital_value_end</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">analog_to_digital</span><span class="p">(</span><span class="n">voltage_input_end</span><span class="p">)</span>
     <span class="n">diode</span><span class="o">.</span><span class="n">average_value_scan</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">digital_value_start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">digital_value_end</span><span class="p">,</span> <span class="n">measurement_amount</span><span class="o">=</span><span class="n">repetitions</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">diode</span><span class="o">.</span><span class="n">df_measurement</span><span class="p">)</span>
 
     <span class="c1"># write the I,U data to a csv</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>

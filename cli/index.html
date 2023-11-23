@@ -482,10 +482,10 @@
 
           <details class="quote">
             <summary>Source code in <code>src\pythondaq\cli.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">75</span>
-<span class="normal">76</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">76</span>
 <span class="normal">77</span>
-<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@click</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
+<span class="normal">78</span>
+<span class="normal">79</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@click</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">cmd_group</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Input list, info or scan to run the respective function&quot;&quot;&quot;</span>
     <span class="k">pass</span>
@@ -543,8 +543,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src\pythondaq\cli.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 91</span>
-<span class="normal"> 92</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 92</span>
 <span class="normal"> 93</span>
 <span class="normal"> 94</span>
 <span class="normal"> 95</span>
@@ -554,7 +553,8 @@
 <span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
-<span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cmd_group</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="normal">102</span>
+<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cmd_group</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">&quot;search&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="n">search</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;prints the identification string of the arduino</span>
@@ -620,15 +620,15 @@
 
           <details class="quote">
             <summary>Source code in <code>src\pythondaq\cli.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">80</span>
-<span class="normal">81</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">81</span>
 <span class="normal">82</span>
 <span class="normal">83</span>
 <span class="normal">84</span>
 <span class="normal">85</span>
 <span class="normal">86</span>
 <span class="normal">87</span>
-<span class="normal">88</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cmd_group</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="normal">88</span>
+<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cmd_group</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;-s&quot;</span><span class="p">,</span> <span class="s2">&quot;--search&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;makes a search in the available ports&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="n">search</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;prints the available ports</span>
@@ -715,8 +715,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src\pythondaq\cli.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
-<span class="normal">56</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
 <span class="normal">59</span>
@@ -732,7 +731,8 @@
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span>
-<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">port_search</span><span class="p">(</span><span class="n">search</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">72</span>
+<span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">port_search</span><span class="p">(</span><span class="n">search</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;searches for the port </span>
 
 <span class="sd">    Args:</span>
@@ -874,8 +874,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src\pythondaq\cli.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
-<span class="normal">105</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
 <span class="normal">108</span>
@@ -901,7 +900,8 @@
 <span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
-<span class="normal">131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cmd_group</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="normal">131</span>
+<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cmd_group</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">&quot;search&quot;</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;-s&quot;</span> <span class="p">,</span><span class="s2">&quot;--voltage_input_start&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">FloatRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;start voltage inputted in the arduino&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;-e&quot;</span> <span class="p">,</span><span class="s2">&quot;--voltage_input_end&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">FloatRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;end voltage inputted in the arduino&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">3.3</span><span class="p">)</span>
@@ -1098,7 +1098,8 @@
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
-<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">view_data</span><span class="p">(</span><span class="n">device</span><span class="p">:</span> <span class="n">ArduinoVISADevice</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voltage_input_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">voltage_input_end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="normal">53</span>
+<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">view_data</span><span class="p">(</span><span class="n">device</span><span class="p">:</span> <span class="n">ArduinoVISADevice</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voltage_input_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">voltage_input_end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file</span>
 
 <span class="sd">    Args:</span>
@@ -1113,6 +1114,7 @@
     <span class="n">digital_value_start</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">analog_to_digital</span><span class="p">(</span><span class="n">voltage_input_start</span><span class="p">)</span>
     <span class="n">digital_value_end</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">analog_to_digital</span><span class="p">(</span><span class="n">voltage_input_end</span><span class="p">)</span>
     <span class="n">diode</span><span class="o">.</span><span class="n">average_value_scan</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">digital_value_start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">digital_value_end</span><span class="p">,</span> <span class="n">measurement_amount</span><span class="o">=</span><span class="n">repetitions</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">diode</span><span class="o">.</span><span class="n">df_measurement</span><span class="p">)</span>
 
     <span class="c1"># write the I,U data to a csv</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
