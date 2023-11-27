@@ -1,11 +1,11 @@
-from pythondaq.diode_experiment import *
+from pythondaq.diode_experiment import DiodeExperiment, make_connection, list_devices_model, device_type
 import matplotlib.pyplot as plt
 import csv
 import click
 
 # port = ASRL5::INSTR
 
-def view_data(device: ArduinoVISADevice, filename: str, voltage_input_start: float, voltage_input_end: float, repetitions: int, graph: bool):
+def view_data(device: device_type(), filename: str, voltage_input_start: float, voltage_input_end: float, repetitions: int, graph: bool):
     """shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file
 
     Args:
@@ -62,7 +62,7 @@ def port_search(search: str) -> str:
     Returns:
         the port found with the search from all available ports
     """
-    port_list = list_devices()
+    port_list = list_devices_model()
     if search != None:
         
         for port in port_list:

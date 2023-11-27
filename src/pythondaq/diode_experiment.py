@@ -16,6 +16,16 @@ def make_connection(arduino_port: str) -> ArduinoVISADevice:
     device = ArduinoVISADevice(port=arduino_port)
     return device
 
+def list_devices_model() -> tuple:
+    """returns the available ports
+
+    Returns:
+        containing the available ports as strings
+    """   
+    return list_devices()
+
+def device_type():
+    return ArduinoVISADevice
 
 class DiodeExperiment:
     """Tells the arduino how to run the experiment"""
