@@ -295,6 +295,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#src.pythondaq.diode_experiment.list_devices_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      list_devices_model()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#src.pythondaq.diode_experiment.make_connection" class="md-nav__link">
     <span class="md-ellipsis">
       make_connection()
@@ -434,6 +443,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#src.pythondaq.diode_experiment.list_devices_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      list_devices_model()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#src.pythondaq.diode_experiment.make_connection" class="md-nav__link">
     <span class="md-ellipsis">
       make_connection()
@@ -496,17 +514,7 @@
 
             <details class="quote">
               <summary>Source code in <code>src\pythondaq\diode_experiment.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 20</span>
-<span class="normal"> 21</span>
-<span class="normal"> 22</span>
-<span class="normal"> 23</span>
-<span class="normal"> 24</span>
-<span class="normal"> 25</span>
-<span class="normal"> 26</span>
-<span class="normal"> 27</span>
-<span class="normal"> 28</span>
-<span class="normal"> 29</span>
-<span class="normal"> 30</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 30</span>
 <span class="normal"> 31</span>
 <span class="normal"> 32</span>
 <span class="normal"> 33</span>
@@ -594,7 +602,17 @@
 <span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
-<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DiodeExperiment</span><span class="p">:</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DiodeExperiment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tells the arduino how to run the experiment&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -756,15 +774,15 @@
 
           <details class="quote">
             <summary>Source code in <code>src\pythondaq\diode_experiment.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">ArduinoVISADevice</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">ArduinoVISADevice</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;sets the initial values of the experiment</span>
 
 <span class="sd">    Args:</span>
@@ -855,17 +873,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src\pythondaq\diode_experiment.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 78</span>
 <span class="normal"> 79</span>
 <span class="normal"> 80</span>
 <span class="normal"> 81</span>
@@ -905,7 +913,17 @@
 <span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
-<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">average_value_scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">measurement_amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">average_value_scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">measurement_amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;runs the scan multiple times to get the average values for every output level and the uncertainty of the average values for every output level</span>
 
 <span class="sd">    Args:</span>
@@ -980,12 +998,12 @@
 
           <details class="quote">
             <summary>Source code in <code>src\pythondaq\diode_experiment.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Clears all lists&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">voltage_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">current_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1073,17 +1091,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src\pythondaq\diode_experiment.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">51</span>
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
@@ -1098,7 +1106,17 @@
 <span class="normal">63</span>
 <span class="normal">64</span>
 <span class="normal">65</span>
-<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">measurement_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">measurement_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;increases output of the arduino from the start value to the end value and puts the voltage and current of the LED in lists</span>
 
 <span class="sd">    Args:</span>
@@ -1138,6 +1156,67 @@
 
 </div>
 
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="src.pythondaq.diode_experiment.list_devices_model" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">list_devices_model</span><span class="p">()</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>returns the available ports</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>tuple</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>containing the available ports as strings</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>src\pythondaq\diode_experiment.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">list_devices_model</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;returns the available ports</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        containing the available ports as strings</span>
+<span class="sd">    &quot;&quot;&quot;</span>   
+    <span class="k">return</span> <span class="n">list_devices</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
 
 
 <div class="doc doc-object doc-function">
