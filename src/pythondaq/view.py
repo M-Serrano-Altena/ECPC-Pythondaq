@@ -1,6 +1,7 @@
 # Marc Serrano Altena
 # 06-11-2023
-# views the data from the model experiment and makes a csv file and shows a I,U graph of the LED
+"""views the data from the model experiment and makes a csv file and shows a I,U graph of the LED
+"""
 
 from pythondaq.diode_experiment import DiodeExperiment, make_connection, device_type
 import matplotlib.pyplot as plt
@@ -11,7 +12,10 @@ import csv
 # U1 measures the current passing through the LED and resistor, which is the full current minus some loss to the wires
 # U2 measures the current passing through the resistor
 
-def view_data(device: device_type(), filename: str, voltage_input_start: float, voltage_input_end: float, repetitions: int):
+# to get the ArduinoVISADevice type without using the controller class explicitly
+ArduinoVISADevice = device_type()
+
+def view_data(device: ArduinoVISADevice, filename: str, voltage_input_start: float, voltage_input_end: float, repetitions: int):
     """shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file
 
     Args:
@@ -39,9 +43,6 @@ def view_data(device: device_type(), filename: str, voltage_input_start: float, 
 
     # plot (I, U) diagram of the LED
     plt.figure()
-
-    plt.xlim(0, 3.0)
-    plt.ylim(0, 0.0025)
     plt.xlabel("Voltage (V)")
     plt.ylabel("Current (A)")
     plt.errorbar(

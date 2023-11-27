@@ -1,11 +1,17 @@
+# Marc Serrano Altena
+# 23-11-2023
+"""views the data with a command line interface
+"""
+
 from pythondaq.diode_experiment import DiodeExperiment, make_connection, list_devices_model, device_type
 import matplotlib.pyplot as plt
 import csv
 import click
 
 # port = ASRL5::INSTR
+ArduinoVISADevice = device_type()
 
-def view_data(device: device_type(), filename: str, voltage_input_start: float, voltage_input_end: float, repetitions: int, graph: bool):
+def view_data(device: ArduinoVISADevice, filename: str, voltage_input_start: float, voltage_input_end: float, repetitions: int, graph: bool):
     """shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file
 
     Args:
@@ -22,21 +28,19 @@ def view_data(device: device_type(), filename: str, voltage_input_start: float, 
     diode.average_value_scan(start=digital_value_start, stop=digital_value_end, measurement_amount=repetitions)
     print(diode.df_measurement)
 
-    # write the I,U data to a csv
-    with open(f"{filename}.csv", "w", newline="") as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(["U", "I", "U error", "I error"])
-        for voltage, current, voltage_error, current_error  in zip(
-            diode.average_voltage_list, diode.average_current_list, diode.error_voltage_list, diode.error_current_list
-        ):
-            writer.writerow([voltage, current, voltage_error, current_error])
+    # write the I,U data to a csv when given a name
+    if filename != None:
+        with open(f"{filename}.csv", "w", newline="") as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(["U", "I", "U error", "I error"])
+            for voltage, current, voltage_error, current_error  in zip(
+                diode.average_voltage_list, diode.average_current_list, diode.error_voltage_list, diode.error_current_list
+            ):
+                writer.writerow([voltage, current, voltage_error, current_error])
     
     # plot (I, U) diagram of the LED if graph is True
     if graph:
         plt.figure()
-
-        plt.xlim(0, 3.0)
-        plt.ylim(0, 0.0025)
         plt.xlabel("Voltage (V)")
         plt.ylabel("Current (A)")
         plt.errorbar(
@@ -109,7 +113,7 @@ def info(search: str):
 @click.option(
     "-f",
     "--filename",
-    default="measurements",
+    default=None,
     help="the name of the csv data file that is exported",
     show_default=True,    
 )

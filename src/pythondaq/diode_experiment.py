@@ -1,6 +1,9 @@
 # Marc Serrano Altena
 # 06-11-2023
-# gets the controller data to use for the experiment
+"""gets the controller data to use for the experiment
+"""
+
+
 from pythondaq.arduino_device import ArduinoVISADevice, list_devices
 import numpy as np
 from rich.progress import track
@@ -24,7 +27,12 @@ def list_devices_model() -> tuple:
     """   
     return list_devices()
 
-def device_type():
+def device_type() -> ArduinoVISADevice:
+    """gives the type of device
+
+    Returns:
+        gives the type of controller device
+    """    
     return ArduinoVISADevice
 
 class DiodeExperiment:

@@ -1,6 +1,8 @@
 # Marc Serrano Altena
 # 06-11-2023
-# sets the commands to interact with the arduino
+
+"""sets the commands to interact with the arduino
+"""
 
 import pyvisa
 def list_devices() -> tuple:
@@ -69,11 +71,11 @@ class ArduinoVISADevice:
         """gets information about the hardware of the arduino
 
         Returns:
-            string: information about the hardware of the arduino
+            information about the hardware of the arduino
         """        
         return self.device.query("*IDN?")
 
-    def set_output_value(self, digital_value: int) -> str:
+    def set_output_value(self, digital_value: int):
         """sets the output voltage of the arduino in digital values
 
         Args:
