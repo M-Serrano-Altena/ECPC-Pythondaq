@@ -3,28 +3,26 @@
 """views the data with a command line interface
 """
 
-from pythondaq.diode_experiment import DiodeExperiment, make_connection, list_devices_model, device_type
+from pythondaq.diode_experiment import DiodeExperiment, make_connection, list_devices_model
 import matplotlib.pyplot as plt
 import csv
 import click
 
-# port = ASRL5::INSTR
-ArduinoVISADevice = device_type()
 
-def view_data(device: ArduinoVISADevice, filename: str, voltage_input_start: float, voltage_input_end: float, repetitions: int, graph: bool):
+def view_data(port: str, filename: str, voltage_input_start: float, voltage_input_end: float, repetitions: int, graph: bool):
     """shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file
 
     Args:
-        device: class instance that gives commands to the arduino
+        port: port where the arduino device is connected to
         filename: name of the file to export the data as a csv file
         voltage_input_start: the analog start value of the input voltage
         voltage_input_end: the analog end value of the input voltage
         repetitions: the amount of times the experiment should be repeated
         graph: shows a graph if true, doesn't show graph if false
     """    
-    diode = DiodeExperiment(device)
-    digital_value_start = device.analog_to_digital(voltage_input_start)
-    digital_value_end = device.analog_to_digital(voltage_input_end)
+    diode = DiodeExperiment(port)
+    digital_value_start = diode.device.analog_to_digital(voltage_input_start)
+    digital_value_end = diode.device.analog_to_digital(voltage_input_end)
     diode.average_value_scan(start=digital_value_start, stop=digital_value_end, measurement_amount=repetitions)
     print(diode.df_measurement)
 
@@ -130,9 +128,8 @@ def scan(search: str, filename: str, voltage_input_start: float, voltage_input_e
         repetitions: the amount of times the experiment should be repeated
         graph: shows a graph if true, doesn't show graph if false
     """
-    port = port_search(search)    
-    device = make_connection(arduino_port=port)
-    view_data(device, filename, voltage_input_start, voltage_input_end, repetitions, graph)
+    port = port_search(search)
+    view_data(port, filename, voltage_input_start, voltage_input_end, repetitions, graph)
     return
 
 if __name__ == "__main__":

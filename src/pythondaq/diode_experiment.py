@@ -27,14 +27,6 @@ def list_devices_model() -> tuple:
     """   
     return list_devices()
 
-def device_type() -> ArduinoVISADevice:
-    """gives the type of device
-
-    Returns:
-        gives the type of controller device
-    """    
-    return ArduinoVISADevice
-
 class DiodeExperiment:
     """Tells the arduino how to run the experiment"""
 
@@ -46,13 +38,14 @@ class DiodeExperiment:
         self.current_measurements = []
 
     # sets the initial values of the experiment
-    def __init__(self, device: ArduinoVISADevice):
+    def __init__(self, port: str):
         """sets the initial values of the experiment
 
         Args:
-            device: class instance that gives commands to the arduino
+            port: port where the arduino device is connected to
         """
-        self.device = device
+        self.port = port
+        self.device = make_connection(self.port)
         self.resistance = 220  # ohm
         self.clear()
 

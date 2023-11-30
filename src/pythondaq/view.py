@@ -3,7 +3,7 @@
 """views the data from the model experiment and makes a csv file and shows a I,U graph of the LED
 """
 
-from pythondaq.diode_experiment import DiodeExperiment, make_connection, device_type
+from pythondaq.diode_experiment import DiodeExperiment, make_connection
 import matplotlib.pyplot as plt
 import csv
 
@@ -12,22 +12,19 @@ import csv
 # U1 measures the current passing through the LED and resistor, which is the full current minus some loss to the wires
 # U2 measures the current passing through the resistor
 
-# to get the ArduinoVISADevice type without using the controller class explicitly
-ArduinoVISADevice = device_type()
-
-def view_data(device: ArduinoVISADevice, filename: str, voltage_input_start: float, voltage_input_end: float, repetitions: int):
+def view_data(port: str, filename: str, voltage_input_start: float, voltage_input_end: float, repetitions: int):
     """shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file
 
     Args:
-        device: class instance that gives commands to the arduino
+        port: port where the arduino device is connected to
         filename: name of the file to export the data as a csv file
         voltage_input_start: start voltage of the input in the arduino
         voltage_input_end: end voltage of the input in the arduino
         repetitions: the amount of times the experiment should be repeated
     """    
-    diode = DiodeExperiment(device)
-    digital_value_start = device.analog_to_digital(voltage_input_start)
-    digital_value_end = device.analog_to_digital(voltage_input_end)
+    diode = DiodeExperiment(port)
+    digital_value_start = diode.device.analog_to_digital(voltage_input_start)
+    digital_value_end = diode.device.analog_to_digital(voltage_input_end)
     diode.average_value_scan(start=digital_value_start, stop=digital_value_end, measurement_amount=repetitions)
     print(diode.df_measurement)
 
@@ -50,7 +47,7 @@ def view_data(device: ArduinoVISADevice, filename: str, voltage_input_start: flo
         diode.average_current_list,
         xerr=diode.error_voltage_list,
         yerr=diode.error_current_list,
-        fmt="bo-",
+        fmt="bo",
         ecolor="k",
         markersize=3,
     )
@@ -67,12 +64,11 @@ def main(filename: str, voltage_input_start: float, voltage_input_end: float, re
         voltage_input_end: the analog end value of the input voltage
         repetitions: the amount of times the experiment should be repeated
     """
-    arduino_port =  "ASRL5::INSTR"   
-    device = make_connection(arduino_port=arduino_port)
-    view_data(device, filename, voltage_input_start, voltage_input_end, repetitions)
+    arduino_port =  "ASRL6::INSTR"   
+    view_data(arduino_port, filename, voltage_input_start, voltage_input_end, repetitions)
 
 if __name__ == "__main__":
-    main(filename="measurements", voltage_input_start=0, voltage_input_end=3.3, repetitions=10)
+    main(filename="measurements", voltage_input_start=0, voltage_input_end=3.3, repetitions=5)
 
 def run():
-    main(filename="measurements", voltage_input_start=0, voltage_input_end=3.3, repetitions=10)
+    main(filename="measurements", voltage_input_start=0, voltage_input_end=3.3, repetitions=5)
