@@ -28,3 +28,4 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 view = "pythondaq.view:run"
 diode = "pythondaq.cli:cmd_group"
+gui = "pythondaq.gui:main"
