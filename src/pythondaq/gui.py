@@ -31,27 +31,63 @@ class UserInterface(QtWidgets.QMainWindow):
 
         vbox.addWidget(self.plot_widget)
 
-        self.view_data("ASRL6::INSTR", "measurements", 0, 3.3, 2)
+        self.start = QtWidgets.QPushButton("Run Experiment")
+        vbox.addWidget(self.start)
+
+        hbox = QtWidgets.QHBoxLayout()
+        vbox.addLayout(hbox)
+
+        
+        vbox_start = QtWidgets.QVBoxLayout()
+        hbox.addLayout(vbox_start)
+
+        start_label = QtWidgets.QLabel("Start Voltage of the Experiment")
+        vbox_start.addWidget(start_label)
+
+        self.start_value = QtWidgets.QDoubleSpinBox()
+        vbox_start.addWidget(self.start_value)
+
+        vbox_end = QtWidgets.QVBoxLayout()
+        hbox.addLayout(vbox_end)
+
+        end_label = QtWidgets.QLabel("End Voltage of the Experiment")
+        vbox_end.addWidget(end_label)
+
+        self.end_value = QtWidgets.QDoubleSpinBox()
+        vbox_end.addWidget(self.end_value)
+
+        vbox_reps = QtWidgets.QVBoxLayout()
+        hbox.addLayout(vbox_reps)
+
+        reps_label = QtWidgets.QLabel("Amount of repetitions to run the scan")
+        vbox_reps.addWidget(reps_label)
+
+        self.repetitions = QtWidgets.QSpinBox()
+        vbox_reps.addWidget(self.repetitions)
+
+        self.start_value.setValue(0)
+        self.start_value.setRange(0, 3.3)
+
+        self.end_value.setValue(3.3)
+        self.end_value.setRange(0, 3.3)
+
+        self.repetitions.setValue(5)
+
         # Slots and signals
+        self.start.clicked.connect(self.view_data)
+        self.start_value.valueChanged.connect(self.range_boundries)
+        self.end_value.valueChanged.connect(self.range_boundries)
 
     @Slot()
-    def view_data(
-        self,
-        port: str,
-        filename: str,
-        voltage_input_start: float,
-        voltage_input_end: float,
-        repetitions: int,
-    ):
+    def view_data(self):
         """shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file
-
-        Args:
-            port: port where the arduino device is connected to
-            filename: name of the file to export the data as a csv file
-            voltage_input_start: start voltage of the input in the arduino
-            voltage_input_end: end voltage of the input in the arduino
-            repetitions: the amount of times the experiment should be repeated
         """
+        self.plot_widget.clear()
+        port = "ASRL6::INSTR"
+        voltage_input_start = self.start_value.value()
+        voltage_input_end = self.end_value.value()
+        repetitions = self.repetitions.value()
+
         diode = DiodeExperiment(port)
         digital_value_start = diode.device.analog_to_digital(voltage_input_start)
         digital_value_end = diode.device.analog_to_digital(voltage_input_end)
@@ -82,6 +118,12 @@ class UserInterface(QtWidgets.QMainWindow):
         self.plot_widget.addItem(error_bars)
 
         return
+    
+    @Slot()
+    def range_boundries(self):
+        self.start_value.setRange(0, self.end_value.value())
+        self.end_value.setRange(self.start_value.value(), 3.3)
+        
 
 
 def main():
