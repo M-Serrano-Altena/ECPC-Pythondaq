@@ -34,6 +34,9 @@ class UserInterface(QtWidgets.QMainWindow):
         self.start = QtWidgets.QPushButton("Run Experiment")
         vbox.addWidget(self.start)
 
+        self.save = QtWidgets.QPushButton("Save Data")
+        vbox.addWidget(self.save)
+
         hbox = QtWidgets.QHBoxLayout()
         vbox.addLayout(hbox)
 
@@ -75,6 +78,8 @@ class UserInterface(QtWidgets.QMainWindow):
 
         # Slots and signals
         self.start.clicked.connect(self.view_data)
+        self.save.clicked.connect(self.save_data)
+
         self.start_value.valueChanged.connect(self.range_boundries)
         self.end_value.valueChanged.connect(self.range_boundries)
 
@@ -96,7 +101,7 @@ class UserInterface(QtWidgets.QMainWindow):
             stop=digital_value_end,
             measurement_amount=repetitions,
         )
-        print(diode.df_measurement)
+        self.df_measurement = diode.df_measurement
 
         # plot (I, U) diagram of the LED
         self.plot_widget.setLabel("bottom", "Voltage (V)")
@@ -123,6 +128,11 @@ class UserInterface(QtWidgets.QMainWindow):
     def range_boundries(self):
         self.start_value.setRange(0, self.end_value.value())
         self.end_value.setRange(self.start_value.value(), 3.3)
+
+    @Slot()
+    def save_data(self):
+        filename, _ = QtWidgets.QFileDialog.getSaveFileName(filter="CSV files (*.csv)")
+        self.df_measurement.to_csv(filename, index=False)
         
 
 

@@ -110,17 +110,18 @@ class DiodeExperiment:
         self.df_measurement = pd.DataFrame(
             list(
                 zip(
-                    self.average_current_list,
+                    
                     self.average_voltage_list,
-                    self.error_current_list,
+                    self.average_current_list,
                     self.error_voltage_list,
+                    self.error_current_list,
                 )
             ),
             columns=[
-                "Average Current",
                 "Average Voltage",
-                "Uncertainty Current",
+                "Average Current",
                 "Uncertainty Voltage",
+                "Uncertainty Current",
             ],
         )
         
