@@ -1,6 +1,6 @@
 import sys
 
-from pythondaq.diode_experiment import DiodeExperiment, make_connection
+from pythondaq.diode_experiment import DiodeExperiment, make_connection, list_devices_model
 from PySide6 import QtWidgets
 from PySide6.QtCore import Slot
 import pyqtgraph as pg
@@ -13,36 +13,43 @@ pg.setConfigOption("foreground", "k")
 
 class UserInterface(QtWidgets.QMainWindow):
     """Graphical User interface
-
-    Args:
-        QtWidgets (class): enables a graphical interface
     """
 
     def __init__(self):
         """initialise values and create start, end, stepsize widgets"""
         super().__init__()
         self.plot_widget = pg.PlotWidget()
+        self.port_list = list_devices_model()
 
         central_widget = QtWidgets.QWidget()
         self.setCentralWidget(central_widget)
 
         # voeg geneste layouts en widgets toe
         vbox = QtWidgets.QVBoxLayout(central_widget)
-
         vbox.addWidget(self.plot_widget)
 
+        menu_label = QtWidgets.QLabel("Arduino Port")
+        vbox.addWidget(menu_label)
+
+        self.menu_port = QtWidgets.QComboBox()
+        for port in self.port_list:
+            self.menu_port.addItem(port)
+
+        vbox.addWidget(self.menu_port)
+
+        # buttons
+        hbox_buttons = QtWidgets.QHBoxLayout()
+        vbox.addLayout(hbox_buttons)
         self.start = QtWidgets.QPushButton("Run Experiment")
-        vbox.addWidget(self.start)
-
+        hbox_buttons.addWidget(self.start)
         self.save = QtWidgets.QPushButton("Save Data")
-        vbox.addWidget(self.save)
+        hbox_buttons.addWidget(self.save)
+        hbox_values = QtWidgets.QHBoxLayout()
+        vbox.addLayout(hbox_values)
 
-        hbox = QtWidgets.QHBoxLayout()
-        vbox.addLayout(hbox)
-
-        
+        # values with labels
         vbox_start = QtWidgets.QVBoxLayout()
-        hbox.addLayout(vbox_start)
+        hbox_values.addLayout(vbox_start)
 
         start_label = QtWidgets.QLabel("Start Voltage of the Experiment")
         vbox_start.addWidget(start_label)
@@ -51,7 +58,7 @@ class UserInterface(QtWidgets.QMainWindow):
         vbox_start.addWidget(self.start_value)
 
         vbox_end = QtWidgets.QVBoxLayout()
-        hbox.addLayout(vbox_end)
+        hbox_values.addLayout(vbox_end)
 
         end_label = QtWidgets.QLabel("End Voltage of the Experiment")
         vbox_end.addWidget(end_label)
@@ -60,7 +67,7 @@ class UserInterface(QtWidgets.QMainWindow):
         vbox_end.addWidget(self.end_value)
 
         vbox_reps = QtWidgets.QVBoxLayout()
-        hbox.addLayout(vbox_reps)
+        hbox_values.addLayout(vbox_reps)
 
         reps_label = QtWidgets.QLabel("Amount of repetitions to run the scan")
         vbox_reps.addWidget(reps_label)
@@ -68,13 +75,16 @@ class UserInterface(QtWidgets.QMainWindow):
         self.repetitions = QtWidgets.QSpinBox()
         vbox_reps.addWidget(self.repetitions)
 
+        # set values of start end and repetitions
         self.start_value.setValue(0)
-        self.start_value.setRange(0, 3.3)
-
         self.end_value.setValue(3.3)
+        self.repetitions.setValue(5)
+
+        # set start and end ranges
+        self.start_value.setRange(0, 3.3)
         self.end_value.setRange(0, 3.3)
 
-        self.repetitions.setValue(5)
+        
 
         # Slots and signals
         self.start.clicked.connect(self.view_data)
@@ -88,7 +98,7 @@ class UserInterface(QtWidgets.QMainWindow):
         """shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file
         """
         self.plot_widget.clear()
-        port = "ASRL6::INSTR"
+        port = self.menu_port.currentText()
         voltage_input_start = self.start_value.value()
         voltage_input_end = self.end_value.value()
         repetitions = self.repetitions.value()
