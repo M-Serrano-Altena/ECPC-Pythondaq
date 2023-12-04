@@ -31,13 +31,19 @@ class UserInterface(QtWidgets.QMainWindow):
         vbox = QtWidgets.QVBoxLayout(central_widget)
         vbox.addWidget(self.plot_widget)
 
-        menu_label = QtWidgets.QLabel("Arduino Port")
-        vbox.addWidget(menu_label)
+        hbox_menu = QtWidgets.QHBoxLayout()
+        vbox.addLayout(hbox_menu)
+
+        menu_label = QtWidgets.QLabel("Arduino Port:")
+        hbox_menu.addWidget(menu_label)
+
+        self.menu_status = QtWidgets.QStatusBar()
+        hbox_menu.addWidget(self.menu_status)
 
         self.menu_port = QtWidgets.QComboBox()
         for port in self.port_list:
             self.menu_port.addItem(port)
-
+        
         vbox.addWidget(self.menu_port)
 
         # buttons
@@ -87,7 +93,7 @@ class UserInterface(QtWidgets.QMainWindow):
         self.start_value.setRange(0, 3.3)
         self.end_value.setRange(0, 3.3)
 
-        
+        self.arduino_status()
 
         # Slots and signals
         self.start.clicked.connect(self.view_data)
@@ -95,6 +101,8 @@ class UserInterface(QtWidgets.QMainWindow):
 
         self.start_value.valueChanged.connect(self.range_boundries)
         self.end_value.valueChanged.connect(self.range_boundries)
+
+        self.menu_port.currentTextChanged.connect(self.arduino_status)
 
     @Slot()
     def view_data(self):
@@ -136,6 +144,17 @@ class UserInterface(QtWidgets.QMainWindow):
         self.plot_widget.addItem(error_bars)
 
         return
+
+    @Slot()
+    def arduino_status(self):
+        """tries to find the identification string of selected arduino and sets it as a status bar
+        """    
+        try:
+            diode = DiodeExperiment(self.menu_port.currentText())
+            identification = diode.device.get_identification()
+            self.menu_status.showMessage(identification)
+        except:
+            self.menu_status.showMessage("Arduino not found")
     
     @Slot()
     def range_boundries(self):
