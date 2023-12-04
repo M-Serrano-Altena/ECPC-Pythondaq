@@ -6,4 +6,5 @@ Modules exported by this package:
 - `diode_experiment`: Tells the arduino how to run the experiment
 - `view`: Shows the data from the experiment in a graph and exports the data to a csv file
 - `cli`: Shows the data from the experiment via a command line interface
+- `gui`: Shows the data from the experiment via a graphical user interface
 """

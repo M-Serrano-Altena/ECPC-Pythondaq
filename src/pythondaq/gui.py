@@ -1,3 +1,6 @@
+"""Graphical app to run the diode experiment and show results that can be saved
+"""
+
 import sys
 
 from pythondaq.diode_experiment import DiodeExperiment, make_connection, list_devices_model
@@ -12,11 +15,11 @@ pg.setConfigOption("foreground", "k")
 
 
 class UserInterface(QtWidgets.QMainWindow):
-    """Graphical User interface
+    """Graphical User interface with start & end voltage and the amount of repetitions per experiment
     """
 
     def __init__(self):
-        """initialise values and create start, end, stepsize widgets"""
+        """initialise values and create start, end, repetitions widgets"""
         super().__init__()
         self.plot_widget = pg.PlotWidget()
         self.port_list = list_devices_model()
@@ -95,7 +98,7 @@ class UserInterface(QtWidgets.QMainWindow):
 
     @Slot()
     def view_data(self):
-        """shows the data from the diode experiment in a (I,U) diagram and exports the current and voltage to a csv file
+        """shows the data from the diode experiment in a (I,U) diagram
         """
         self.plot_widget.clear()
         port = self.menu_port.currentText()
@@ -136,17 +139,23 @@ class UserInterface(QtWidgets.QMainWindow):
     
     @Slot()
     def range_boundries(self):
+        """keeps the start voltage the same or smaller than the end voltage
+        """        
         self.start_value.setRange(0, self.end_value.value())
         self.end_value.setRange(self.start_value.value(), 3.3)
 
     @Slot()
     def save_data(self):
+        """saves the data in a csv file with a chosen name
+        """        
         filename, _ = QtWidgets.QFileDialog.getSaveFileName(filter="CSV files (*.csv)")
         self.df_measurement.to_csv(filename, index=False)
         
 
 
 def main():
+    """opens the graphical user interface
+    """    
     app = QtWidgets.QApplication(sys.argv)
     ui = UserInterface()
     ui.show()
