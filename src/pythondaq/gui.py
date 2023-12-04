@@ -108,6 +108,9 @@ class UserInterface(QtWidgets.QMainWindow):
     def view_data(self):
         """shows the data from the diode experiment in a (I,U) diagram
         """
+        if self.menu_status == "Arduino not found":
+            return
+            
         self.plot_widget.clear()
         port = self.menu_port.currentText()
         voltage_input_start = self.start_value.value()
