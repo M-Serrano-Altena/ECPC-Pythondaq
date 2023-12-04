@@ -37,8 +37,8 @@ class UserInterface(QtWidgets.QMainWindow):
         menu_label = QtWidgets.QLabel("Arduino Port:")
         hbox_menu.addWidget(menu_label)
 
-        self.menu_status = QtWidgets.QStatusBar()
-        hbox_menu.addWidget(self.menu_status)
+        self.port_status = QtWidgets.QStatusBar()
+        hbox_menu.addWidget(self.port_status)
 
         self.menu_port = QtWidgets.QComboBox()
         for port in self.port_list:
@@ -108,6 +108,9 @@ class UserInterface(QtWidgets.QMainWindow):
     def view_data(self):
         """shows the data from the diode experiment in a (I,U) diagram
         """
+        if self.port_status.currentMessage() == "Arduino not found":
+            return
+
         self.plot_widget.clear()
         port = self.menu_port.currentText()
         voltage_input_start = self.start_value.value()
@@ -152,9 +155,9 @@ class UserInterface(QtWidgets.QMainWindow):
         try:
             diode = DiodeExperiment(self.menu_port.currentText())
             identification = diode.device.get_identification()
-            self.menu_status.showMessage(identification)
+            self.port_status.showMessage(identification)
         except:
-            self.menu_status.showMessage("Arduino not found")
+            self.port_status.showMessage("Arduino not found")
     
     @Slot()
     def range_boundries(self):
