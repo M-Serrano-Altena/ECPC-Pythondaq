@@ -4,7 +4,7 @@
 import sys
 
 from pythondaq.diode_experiment import DiodeExperiment, make_connection, list_devices_model
-from PySide6 import QtWidgets
+from PySide6 import QtWidgets, QtCore
 from PySide6.QtCore import Slot
 import pyqtgraph as pg
 import numpy as np
@@ -29,6 +29,10 @@ class UserInterface(QtWidgets.QMainWindow):
 
         # voeg geneste layouts en widgets toe
         vbox = QtWidgets.QVBoxLayout(central_widget)
+        plot_status = QtWidgets.QStatusBar()
+        plot_status.showMessage("Plot: Average of the experiments")
+        vbox.addWidget(plot_status)
+
         vbox.addWidget(self.plot_widget)
 
         hbox_menu = QtWidgets.QHBoxLayout()
@@ -38,6 +42,10 @@ class UserInterface(QtWidgets.QMainWindow):
         hbox_menu.addWidget(menu_label)
 
         self.port_status = QtWidgets.QStatusBar()
+<<<<<<< Updated upstream
+=======
+        self.arduino_status()
+>>>>>>> Stashed changes
         hbox_menu.addWidget(self.port_status)
 
         self.menu_port = QtWidgets.QComboBox()
@@ -96,7 +104,8 @@ class UserInterface(QtWidgets.QMainWindow):
         self.arduino_status()
 
         # Slots and signals
-        self.start.clicked.connect(self.view_data)
+        self.start.clicked.connect(self.start_scan)
+        self.start.clicked.connect(self.run_view_data)
         self.save.clicked.connect(self.save_data)
 
         self.start_value.valueChanged.connect(self.range_boundries)
@@ -104,45 +113,101 @@ class UserInterface(QtWidgets.QMainWindow):
 
         self.menu_port.currentTextChanged.connect(self.arduino_status)
 
+
+
     @Slot()
+<<<<<<< Updated upstream
     def view_data(self):
         """shows the data from the diode experiment in a (I,U) diagram
         """
         if self.port_status.currentMessage() == "Arduino not found":
             return
 
+=======
+    def start_scan(self):
+        # to not try to run the experiment without an arduino connection
+        if self.port_status.currentMessage() == "Arduino not found":
+            return
+        
+>>>>>>> Stashed changes
         self.plot_widget.clear()
         port = self.menu_port.currentText()
         voltage_input_start = self.start_value.value()
         voltage_input_end = self.end_value.value()
         repetitions = self.repetitions.value()
 
-        diode = DiodeExperiment(port)
-        digital_value_start = diode.device.analog_to_digital(voltage_input_start)
-        digital_value_end = diode.device.analog_to_digital(voltage_input_end)
-        diode.average_value_scan(
+        self.diode = DiodeExperiment(port)
+        digital_value_start = self.diode.device.analog_to_digital(voltage_input_start)
+        digital_value_end = self.diode.device.analog_to_digital(voltage_input_end)
+        self.diode.start_scan(
             start=digital_value_start,
             stop=digital_value_end,
             measurement_amount=repetitions,
         )
-        self.df_measurement = diode.df_measurement
+
+    @Slot()
+    def run_view_data(self):
+        self.plot_timer = QtCore.QTimer()
+        self.plot_timer.timeout.connect(self.view_data)
+        self.plot_timer.start(100)
+
+    @Slot()
+    def view_data(self):
+        """shows the data from the diode experiment in a (I,U) diagram
+        """
+        # # to not try to run the experiment without an arduino connection
+        # if self.port_status.currentMessage() == "Arduino not found":
+        #     return
+        
+        
+        # port = self.menu_port.currentText()
+        # voltage_input_start = self.start_value.value()
+        # voltage_input_end = self.end_value.value()
+        # repetitions = self.repetitions.value()
+
+        # self.diode = DiodeExperiment(port)
+        # digital_value_start = self.diode.device.analog_to_digital(voltage_input_start)
+        # digital_value_end = self.diode.device.analog_to_digital(voltage_input_end)
+        # self.diode.start_scan(
+        #     start=digital_value_start,
+        #     stop=digital_value_end,
+        #     measurement_amount=repetitions,
+        # )
+        # self.diode._scan_thread.join()
+        # self.df_measurement = self.diode.df_measurement
 
         # plot (I, U) diagram of the LED
+        self.plot_widget.clear()
         self.plot_widget.setLabel("bottom", "Voltage (V)")
         self.plot_widget.setLabel("left", "Current (A)")
         self.plot_widget.plot(
-            diode.df_measurement["Average Voltage"],
-            diode.df_measurement["Average Current"],
+            self.diode.voltage_list,
+            self.diode.current_list,
+            symbol="o",
+            symbolSize=5,
+            pen=None,
+        )
+
+        if self.diode.measurement_num < self.diode.measurement_amount:
+            return
+
+        # # plot (I, U) diagram of the LED
+        self.plot_widget.clear()
+        self.plot_widget.setLabel("bottom", "Voltage (V)")
+        self.plot_widget.setLabel("left", "Current (A)")
+        self.plot_widget.plot(
+            self.diode.df_measurement["Average Voltage"],
+            self.diode.df_measurement["Average Current"],
             symbol="o",
             symbolSize=5,
             pen=None,
         )
 
         error_bars = pg.ErrorBarItem(
-            x=diode.df_measurement["Average Voltage"],
-            y=diode.df_measurement["Average Current"],
-            width=2 * diode.df_measurement["Uncertainty Voltage"],
-            height=2 * np.array(diode.df_measurement["Uncertainty Current"]),
+            x=self.diode.df_measurement["Average Voltage"],
+            y=self.diode.df_measurement["Average Current"],
+            width=2 * self.diode.df_measurement["Uncertainty Voltage"],
+            height=2 * np.array(self.diode.df_measurement["Uncertainty Current"]),
         )
         self.plot_widget.addItem(error_bars)
 
@@ -153,8 +218,13 @@ class UserInterface(QtWidgets.QMainWindow):
         """tries to find the identification string of selected arduino and sets it as a status bar
         """    
         try:
+<<<<<<< Updated upstream
             diode = DiodeExperiment(self.menu_port.currentText())
             identification = diode.device.get_identification()
+=======
+            self.diode = DiodeExperiment(self.menu_port.currentText())
+            identification = self.diode.device.get_identification()
+>>>>>>> Stashed changes
             self.port_status.showMessage(identification)
         except:
             self.port_status.showMessage("Arduino not found")

@@ -8,6 +8,7 @@ from pythondaq.arduino_device import ArduinoVISADevice, list_devices
 import numpy as np
 from rich.progress import track
 import pandas as pd
+import threading
 
 
 def make_connection(arduino_port: str) -> ArduinoVISADevice:
@@ -49,6 +50,11 @@ class DiodeExperiment:
         self.resistance = 220  # ohm
         self.clear()
 
+    def start_scan(self, start, stop, measurement_amount):
+        self._scan_thread = threading.Thread(target=self.average_value_scan, args=(start, stop, measurement_amount))
+        self._scan_thread.start()
+
+
     def scan(self, start: int, stop: int, measurement_num: int):
         """increases output of the arduino from the start value to the end value and puts the voltage and current of the LED in lists
 
@@ -84,10 +90,14 @@ class DiodeExperiment:
             stop: the end value of the output of the arduino in digital voltage
             measurement_amount: amount of times the scan experiment is repeated
         """
-        for num in range(0, measurement_amount):
-            self.scan(start, stop, measurement_num=num)
+        self.measurement_amount = measurement_amount
+        for self.measurement_num in range(0, measurement_amount):
+            self.scan(start, stop, measurement_num=self.measurement_num)
             self.voltage_measurements.append(self.voltage_list)
             self.current_measurements.append(self.current_list)
+
+            if self.measurement_num == measurement_amount - 1:
+                self.measurement_num += 1
 
         # calculate the average value of "measurement_amount" measurements for every output level
         self.average_voltage_list = np.mean(self.voltage_measurements, axis=0)
